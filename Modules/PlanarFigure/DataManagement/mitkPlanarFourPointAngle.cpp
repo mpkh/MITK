@@ -17,6 +17,8 @@ See LICENSE.txt or http://www.mitk.org for details.
 
 #include "mitkPlanarFourPointAngle.h"
 #include "mitkPlaneGeometry.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 
 mitk::PlanarFourPointAngle::PlanarFourPointAngle()
@@ -45,6 +47,18 @@ void mitk::PlanarFourPointAngle::GenerateHelperPolyLine(double /*mmPerDisplayUni
 {
   // Generate helper-poly-line for an four point angle
   // Need to discuss a sensible implementation
+}
+
+std::string mitk::PlanarFourPointAngle::EvaluateAnnotation()
+{
+  double angle = GetQuantity(FEATURE_ID_ANGLE);
+
+  char str[20];
+  sprintf(str, "%.2f", angle*180/M_PI);
+  std::string res = str;
+  res += " \xC2\xB0";
+
+  return res;
 }
 
 void mitk::PlanarFourPointAngle::EvaluateFeaturesInternal()

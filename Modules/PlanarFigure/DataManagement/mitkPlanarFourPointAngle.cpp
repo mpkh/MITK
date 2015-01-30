@@ -26,7 +26,7 @@ mitk::PlanarFourPointAngle::PlanarFourPointAngle()
 {
   // Four point angle has two control points
   this->ResetNumberOfControlPoints( 2 );
-  this->SetNumberOfPolyLines( 2 );
+  this->SetNumberOfPolyLines( 3 );
 }
 
 
@@ -78,6 +78,24 @@ void mitk::PlanarFourPointAngle::EvaluateFeaturesInternal()
   const Point2D &p1 = this->GetControlPoint( 1 );
   const Point2D &p2 = this->GetControlPoint( 2 );
   const Point2D &p3 = this->GetControlPoint( 3 );
+  if (this->GetPolyLine(1).size() > 1) {
+    bool l1direction = (p1[0] - p0[0]) > 0;
+    bool l2direction = (p3[0] - p2[0]) > 0;
+    
+    mitk::Point2D pont3;
+    auto diff0 = p3[0] - p2[0];
+    auto diff1 = p3[1] - p2[1];
+    if (l1direction & l2direction) {
+      this->SetControlPoint(4, p1, true);
+      pont3[0] = p1[0] - diff0;
+      pont3[1] = p1[1] - diff1;
+    } else {
+      this->SetControlPoint(4, p0, true);
+      pont3[0] = p0[0] - diff0;
+      pont3[1] = p0[1] - diff1;
+    }
+    this->SetControlPoint(5, pont3, true);
+  }
 
   Vector2D v0 = p1 - p0;
   Vector2D v1 = p3 - p2;

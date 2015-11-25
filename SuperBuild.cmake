@@ -26,7 +26,9 @@ if(UNIX AND NOT APPLE)
   include(mitkFunctionCheckPackageHeader)
 
   # Check for libxt-dev
+if(NOT SYSTEM_NAME STREQUAL "FreeBSD")
   mitkFunctionCheckPackageHeader(StringDefs.h libxt-dev /usr/include/X11/)
+endif()
 
   # Check for libtiff4-dev
   mitkFunctionCheckPackageHeader(tiff.h libtiff4-dev)

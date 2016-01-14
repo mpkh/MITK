@@ -12,6 +12,13 @@ foreach(policy ${project_policies})
   endif()
 endforeach()
 
+# add local include directory for FreeBSD
+# (QtOpengl can't find GL/gl.h)
+# actual bug: https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=195105
+if(CMAKE_SYSTEM_NAME STREQUAL FreeBSD)
+  include_directories("/usr/local/include")
+endif()
+
 #-----------------------------------------------------------------------------
 # Superbuild Option - Enabled by default
 #-----------------------------------------------------------------------------
